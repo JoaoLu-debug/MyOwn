@@ -210,8 +210,9 @@ bentoCards.forEach(card => {
   });
 });
 
-// ─── Center Glass Card 3D Tilt Interaction ───────────────────────────
+// ─── Center Glass Card 3D Tilt & Distortion Interaction ──────────────
 const glassCard = document.querySelector('.glass-card');
+const cardDisplacement = document.getElementById('card-displacement-map');
 
 if (glassCard) {
   let targetRotateX = 0;
@@ -220,9 +221,24 @@ if (glassCard) {
   let currentRotateY = 0;
   let isGlassHovered = false;
   
+  let targetScale = 0;
+  let currentScale = 0;
+  
   function glassCardLoop() {
     currentRotateX += (targetRotateX - currentRotateX) * 0.12;
     currentRotateY += (targetRotateY - currentRotateY) * 0.12;
+    
+    // Calculate current rotation magnitude/velocity
+    const tiltMagnitude = Math.sqrt(currentRotateX * currentRotateX + currentRotateY * currentRotateY);
+    
+    // Set target distortion scale (warp up to 32px depending on tilt degree)
+    targetScale = isGlassHovered ? Math.min(tiltMagnitude * 2.2, 32) : 0;
+    currentScale += (targetScale - currentScale) * 0.15;
+    
+    // Apply displacement scale to SVG shader
+    if (cardDisplacement) {
+      cardDisplacement.setAttribute('scale', currentScale);
+    }
     
     if (isGlassHovered) {
       glassCard.style.transform = `perspective(1000px) rotateX(${currentRotateX}deg) rotateY(${currentRotateY}deg) scale(1.03)`;

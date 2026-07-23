@@ -252,6 +252,15 @@
           <feMorphology in="torn" operator="erode" radius="0.4" result="eroded" />
           <feGaussianBlur in="eroded" stdDeviation="0.3" />
         </filter>
+
+        <!-- Dynamic Card Liquid Glass Displacement Filter -->
+        <filter color-interpolation-filters="sRGB" height="200%" id="card-glass-filter" width="200%" x="-50%" y="-50%">
+          <feTurbulence baseFrequency="0.03 0.03" numOctaves="2" result="turbulence" seed="5" type="fractalNoise" />
+          <feGaussianBlur in="turbulence" result="blurredNoise" stdDeviation="1.5" />
+          <feDisplacementMap id="card-displacement-map" in="SourceGraphic" in2="blurredNoise" result="displaced" scale="0" xChannelSelector="R" yChannelSelector="B" />
+          <feGaussianBlur in="displaced" result="finalBlur" stdDeviation="0" />
+          <feComposite in="finalBlur" in2="finalBlur" operator="over" />
+        </filter>
       </defs>
     </svg>
 
