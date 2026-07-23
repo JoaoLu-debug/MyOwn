@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ERGO Studio — Web Dev, Video Editing & Google Ads</title>
+  <meta name="description" content="Welcome to ERGO Studio. We build high-performance websites, edit viral video content, and manage strategic Google Ads. Make your digital growth inevitable.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- SVG Film Grain Filter Definition -->
+  <svg style="display: none;">
+    <filter id="noise">
+      <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" stitchTiles="stitch" />
+      <feColorMatrix type="matrix" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.12 0" />
+    </filter>
+  </svg>
+
+  <!-- Film Grain Overlay Div -->
+  <div class="grain-overlay" aria-hidden="true"></div>
+
+  <!-- Page Frame Container -->
+  <div class="page-frame">
+    
+    <!-- Corner Decorative Plus Symbols -->
+    <div class="corner-plus cp-tl" aria-hidden="true"></div>
+    <div class="corner-plus cp-tr" aria-hidden="true"></div>
+    <div class="corner-plus cp-bl" aria-hidden="true"></div>
+    <div class="corner-plus cp-br" aria-hidden="true"></div>
+
+    <!-- Navigation Header -->
+    <header class="site-header">
+      <a href="#" class="logo-link" id="site-logo">ERGO</a>
+      <nav aria-label="Main Navigation">
+        <ul class="nav-menu">
+          <li><a href="#services" class="nav-link">Services</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#contact" class="nav-link" onclick="event.preventDefault(); openDrawer();">Contact</a></li>
+        </ul>
+      </nav>
+      <button class="header-cta" onclick="openDrawer()">Start Project</button>
+    </header>
+
+    <!-- Main Poster Hero -->
+    <main class="hero-poster" id="hero-poster">
+      
+      <!-- Central Parallax 3D Sculpture Artwork -->
+      <div class="sculpture-wrapper" id="sculpture-wrapper">
+        <img src="assets/sculpture.jpg" alt="Minimalist 3D chrome sculpture" class="sculpture-img" id="sculpture-img">
+      </div>
+
+      <!-- Top Left Text Block: Web Dev -->
+      <section class="poster-block pb-top-left" aria-label="Web Development Summary">
+        <h2 class="poster-title">WEB DEV.</h2>
+        <p class="poster-desc">We build clean, blazing-fast, custom codebases that load instantly, secure your presence, and convert visitors into clients.</p>
+      </section>
+
+      <!-- Top Right Text Block: Brand vertical marker -->
+      <div class="poster-block pb-top-right">
+        <div class="vertical-brand">
+          <span>ERGO</span>
+          <span class="brand-sub">STUDIO</span>
+        </div>
+      </div>
+
+      <!-- Center Glassmorphic Poster Card -->
+      <section class="poster-block pb-center-card" aria-label="Core Business Motto">
+        <div class="glass-card">
+          <span class="glass-top">We Build and Scale</span>
+          
+          <div class="glass-center">
+            <span class="pre-hero">your digital</span>
+            <span class="hero-emphasis-main">GROWTH</span>
+            <span class="hero-emphasis-a">partner</span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 0.75rem; width: 100%;">
+            <span class="glass-bottom">Dev · Edit · Ads</span>
+            <button class="cta-button" onclick="openDrawer()">
+              Book a Strategy Session
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bottom Left Text Block: Heavy Block Concept -->
+      <div class="poster-block pb-bottom-left">
+        <h1 class="block-concept">
+          <span>BUILD</span>
+          <span>EDIT</span>
+          <span>GROW</span>
+        </h1>
+      </div>
+
+      <!-- Bottom Right Text Block: Ads & Editing -->
+      <section class="poster-block pb-bottom-right" aria-label="Ads & Editing Summary">
+        <h2 class="poster-title">ADS & EDIT.</h2>
+        <p class="poster-desc">Strategic Google Ads campaigns aligned with high-retention vertical video content to secure views and capture value.</p>
+      </section>
+
+    </main>
+
+    <!-- Detailed Services Bento Grid -->
+    <section class="section-container" id="services">
+      <header class="section-header">
+        <h2 class="section-title">WHAT WE DO</h2>
+        <p class="section-desc">We deliver three specialized pillars engineered to integrate seamlessly. No bloated structures, just measurable outcomes.</p>
+      </header>
+
+      <div class="bento-grid">
+        
+        <!-- Pillar 1: Web Development -->
+        <article class="bento-card" style="--accent-color: #a78bfa;">
+          <div class="card-glow-static" aria-hidden="true"></div>
+          <div class="card-glow-hover" aria-hidden="true"></div>
+          <div class="shimmer-sweep" aria-hidden="true"></div>
+          <div class="card-border-bottom" aria-hidden="true"></div>
+          <div class="bento-header">
+            <span class="bento-number">01</span>
+            <div class="bento-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="16 18 22 12 16 6"></polyline>
+                <polyline points="8 6 2 12 8 18"></polyline>
+                <line x1="14" y1="4" x2="10" y2="20"></line>
+              </svg>
+            </div>
+          </div>
+          <div class="bento-content">
+            <h3 class="bento-title">Web Development</h3>
+            <p class="bento-desc">Custom landing pages and web apps built from scratch. Focus on performance engineering, clean UI design, SEO structure, and fluid web systems.</p>
+          </div>
+          <div class="bento-tags">
+            <span>React / Vite</span>
+            <span>Vanilla JS</span>
+            <span>SEO Architecture</span>
+            <span>100% PageSpeed</span>
+          </div>
+        </article>
+
+        <!-- Pillar 2: Video Editing (Accent block) -->
+        <article class="bento-card variant-accent" style="--accent-color: #f59e0b;">
+          <div class="card-glow-static" aria-hidden="true"></div>
+          <div class="card-glow-hover" aria-hidden="true"></div>
+          <div class="shimmer-sweep" aria-hidden="true"></div>
+          <div class="card-border-bottom" aria-hidden="true"></div>
+          <div class="bento-header">
+            <span class="bento-number">02</span>
+            <div class="bento-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
+                <line x1="7" y1="2" x2="7" y2="22"></line>
+                <line x1="17" y1="2" x2="17" y2="22"></line>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <line x1="2" y1="7" x2="7" y2="7"></line>
+                <line x1="2" y1="17" x2="7" y2="17"></line>
+                <line x1="17" y1="17" x2="22" y2="17"></line>
+                <line x1="17" y1="7" x2="22" y2="7"></line>
+              </svg>
+            </div>
+          </div>
+          <div class="bento-content">
+            <h3 class="bento-title">Video Editing</h3>
+            <p class="bento-desc">Dynamic content optimized for attention retention. Crafting high-conversion advertisements, corporate stories, and short-form pieces with pristine audio.</p>
+          </div>
+          <div class="bento-tags">
+            <span>Social Hooks</span>
+            <span>Motion Graphics</span>
+            <span>Color Grading</span>
+            <span>Audio Design</span>
+          </div>
+        </article>
+
+        <!-- Pillar 3: Google Ads -->
+        <article class="bento-card" style="--accent-color: #38bdf8;">
+          <div class="card-glow-static" aria-hidden="true"></div>
+          <div class="card-glow-hover" aria-hidden="true"></div>
+          <div class="shimmer-sweep" aria-hidden="true"></div>
+          <div class="card-border-bottom" aria-hidden="true"></div>
+          <div class="bento-header">
+            <span class="bento-number">03</span>
+            <div class="bento-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <circle cx="12" cy="12" r="6"></circle>
+                <circle cx="12" cy="12" r="2"></circle>
+              </svg>
+            </div>
+          </div>
+          <div class="bento-content">
+            <h3 class="bento-title">Google Ads</h3>
+            <p class="bento-desc">Strategic acquisition management. Auditing channels, defining funnel targets, launching search and display networks, and tracking metrics to maximize ROAS.</p>
+          </div>
+          <div class="bento-tags">
+            <span>ROI Management</span>
+            <span>Keyword Auditing</span>
+            <span>Funnel Design</span>
+            <span>Conversion Leads</span>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- About section -->
+    <section class="section-container" id="about">
+      <header class="section-header">
+        <h2 class="section-title">THE PARTNER YOU NEED</h2>
+        <p class="section-desc">We operate at the intersection of aesthetic design and concrete statistics. No agency jargon, just standard technical execution that moves needles.</p>
+      </header>
+      <div class="bento-grid">
+        <article class="bento-card" style="grid-column: span 3; min-height: 250px;">
+          <div class="bento-header">
+            <span class="bento-number">✦</span>
+          </div>
+          <div class="bento-content" style="margin-top: 1.5rem; margin-bottom: 0;">
+            <h3 class="bento-title" style="font-size: 2.75rem;">OUR GUARANTEE</h3>
+            <p class="bento-desc" style="max-width: 80ch;">Every line of code is handwritten for optimization. Every frame of video is crafted to maintain viewers' focus. Every ad dollar is tracked and accounted for. We treat your growth trajectory with the same operational focus as our own systems.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Site Footer -->
+    <footer class="site-footer">
+      <span class="footer-copy">© 2026 ERGO STUDIO. ALL RIGHTS RESERVED.</span>
+      <ul class="footer-links">
+        <li><a href="#" class="footer-link" onclick="event.preventDefault(); openDrawer();">BOOK SESSION</a></li>
+        <li><a href="#services" class="footer-link">CAPABILITIES</a></li>
+      </ul>
+    </footer>
+
+  </div>
+
+  <!-- Booking Slide-out Drawer Panel -->
+  <div class="drawer-backdrop" id="drawer-backdrop" onclick="closeDrawer()"></div>
+  <aside class="drawer-panel" id="drawer-panel" role="dialog" aria-modal="true" aria-labelledby="drawer-title-id">
+    <div class="drawer-header">
+      <h2 class="drawer-title" id="drawer-title-id">LET'S BUILD</h2>
+      <button class="drawer-close" onclick="closeDrawer()" aria-label="Close Form">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Booking Form -->
+    <form class="contact-form" id="booking-form" onsubmit="handleFormSubmit(event)">
+      <div class="form-group">
+        <label for="name" class="form-label">Full Name</label>
+        <input type="text" id="name" name="name" class="form-input" placeholder="e.g. John Doe" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email" class="form-label">Email Address</label>
+        <input type="email" id="email" name="email" class="form-input" placeholder="e.g. john@company.com" required>
+      </div>
+
+      <div class="form-group">
+        <label for="service" class="form-label">Primary Interest</label>
+        <select id="service" name="service" class="form-input" style="color: var(--text-color); cursor: pointer;" required>
+          <option value="" disabled selected>Select a service</option>
+          <option value="webdev">Web Development</option>
+          <option value="video">Video Editing</option>
+          <option value="ads">Google Ads Management</option>
+          <option value="all">Full Growth Bundle</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="details" class="form-label">Tell us about your goals</label>
+        <textarea id="details" name="details" class="form-textarea" placeholder="Describe your product, budget, and timelines..." required></textarea>
+      </div>
+
+      <button type="submit" class="form-submit" id="submit-button">
+        Submit Strategy Booking
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16" aria-hidden="true">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </button>
+    </form>
+
+    <footer class="drawer-footer">
+      We typically respond within 12 business hours with a preliminary audit of your current digital setup. Let's make things happen.
+    </footer>
+  </aside>
+
+  <!-- Interactive JavaScript logic -->
+  <script src="app.js"></script>
+</body>
+</html>
