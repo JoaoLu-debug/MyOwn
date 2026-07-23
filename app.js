@@ -167,3 +167,60 @@ bentoCards.forEach(card => {
   });
 });
 
+// ─── Experience Lab: Liquid Glass Dock Controls ───────────────────────────
+const lockToggleBtn = document.getElementById('lock-toggle-btn');
+const thumbTextLabel = document.getElementById('thumb-text-label');
+
+if (lockToggleBtn) {
+  lockToggleBtn.addEventListener('click', () => {
+    const isLocked = lockToggleBtn.classList.contains('locked');
+    
+    if (isLocked) {
+      // Toggle to unlocked
+      lockToggleBtn.classList.remove('locked');
+      lockToggleBtn.setAttribute('aria-pressed', 'false');
+      if (thumbTextLabel) thumbTextLabel.textContent = '';
+    } else {
+      // Toggle to locked
+      lockToggleBtn.classList.add('locked');
+      lockToggleBtn.setAttribute('aria-pressed', 'true');
+      if (thumbTextLabel) {
+        // Delay slightly for visual pacing matching transition width
+        setTimeout(() => {
+          if (lockToggleBtn.classList.contains('locked')) {
+            thumbTextLabel.textContent = 'Locked';
+          }
+        }, 120);
+      }
+    }
+  });
+}
+
+// Simulated Generate state tactile feedback
+const generateDocBtn = document.getElementById('generate-doc-btn');
+if (generateDocBtn) {
+  generateDocBtn.addEventListener('click', () => {
+    const genText = generateDocBtn.querySelector('.gen-text');
+    if (!genText || genText.textContent !== 'Generate') return;
+    
+    genText.textContent = 'Generating...';
+    generateDocBtn.style.opacity = '0.82';
+    
+    setTimeout(() => {
+      genText.textContent = 'Success!';
+      generateDocBtn.style.backgroundColor = 'rgba(16, 185, 129, 0.15)';
+      generateDocBtn.style.borderColor = '#10b981';
+      generateDocBtn.style.color = '#10b981';
+      
+      setTimeout(() => {
+        genText.textContent = 'Generate';
+        generateDocBtn.style.backgroundColor = '';
+        generateDocBtn.style.borderColor = '';
+        generateDocBtn.style.color = '';
+        generateDocBtn.style.opacity = '';
+      }, 1500);
+    }, 1800);
+  });
+}
+
+

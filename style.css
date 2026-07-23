@@ -1096,3 +1096,389 @@ body {
     text-align: center;
   }
 }
+
+/* --- Experience Lab Layout & Liquid Glass Dock --- */
+.lab-layout {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 3.5rem;
+  align-items: center;
+}
+
+.lab-desc-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 3rem;
+  z-index: 2;
+}
+
+.lab-card-title {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+  line-height: 1;
+}
+
+.lab-card-text {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+}
+
+.lab-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.lab-features li {
+  font-size: 0.92rem;
+  line-height: 1.5;
+  position: relative;
+  padding-left: 1.5rem;
+  color: var(--text-color);
+}
+
+.lab-features li::before {
+  content: "✦";
+  position: absolute;
+  left: 0;
+  color: var(--text-color);
+  opacity: 0.7;
+}
+
+.lab-features strong {
+  font-weight: 700;
+}
+
+.lab-demo-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4.5rem 3.5rem;
+  border-radius: 40px;
+  background: linear-gradient(180deg, #ecebeb 0%, #dedede 100%);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 30px 60px rgba(18, 18, 18, 0.05);
+  z-index: 2;
+}
+
+/* Liquid Glass Elements */
+.liquid-glass-dock-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 320px;
+}
+
+.liquid-pill {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-radius: 9999px;
+  border: 1.5px solid rgba(255, 255, 255, 0.65);
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 5;
+}
+
+/* Specular / Glass edge shadow structure */
+.liquid-pill::before, 
+.liquid-gen-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  box-shadow: 0 0 6px rgba(0,0,0,0.03),
+              0 2px 6px rgba(0,0,0,0.08),
+              inset 3px 3px 0.5px -3px rgba(0,0,0,0.9),
+              inset -3px -3px 0.5px -3px rgba(0,0,0,0.85),
+              inset 1px 1px 1px -0.5px rgba(0,0,0,0.6),
+              inset -1px -1px 1px -0.5px rgba(0,0,0,0.6),
+              inset 0 0 6px 6px rgba(0,0,0,0.12),
+              inset 0 0 2px 2px rgba(0,0,0,0.06),
+              0 0 12px rgba(255,255,255,0.15);
+  z-index: 2;
+}
+
+/* Displacement shader maps */
+.liquid-pill::after,
+.liquid-gen-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  backdrop-filter: url(#dock-glass-filter);
+  -webkit-backdrop-filter: url(#dock-glass-filter);
+  z-index: -1;
+  opacity: 0.9;
+}
+
+.liquid-pill.size-sm {
+  height: 48px;
+  padding: 4px;
+  gap: 4px;
+}
+
+.liquid-pill.size-md {
+  height: 64px;
+  padding: 8px;
+  gap: 8px;
+}
+
+.dock-row-split {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.flex-grow {
+  flex-grow: 1;
+}
+
+.w-16 {
+  width: 64px;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+/* Liquid Orb Button */
+.liquid-orb {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: var(--text-light);
+  cursor: pointer;
+  background: radial-gradient(circle at 32% 28%, #6b6b6f 0%, #2a2a2e 42%, #050505 100%);
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.35), 
+              inset 0 -3px 6px rgba(0,0,0,0.6), 
+              0 2px 6px rgba(0,0,0,0.25);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-shrink: 0;
+  z-index: 5;
+}
+
+.liquid-orb::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  backdrop-filter: url(#orb-glass-filter);
+  -webkit-backdrop-filter: url(#orb-glass-filter);
+  z-index: -1;
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+.liquid-orb.size-48 {
+  width: 48px;
+  height: 48px;
+}
+
+.liquid-orb.size-40 {
+  width: 40px;
+  height: 40px;
+}
+
+.liquid-orb:hover {
+  transform: scale(1.05);
+}
+
+.liquid-orb:active {
+  transform: scale(0.95);
+}
+
+/* Date Pill */
+.liquid-date-pill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  padding: 0 16px;
+  border-radius: 9999px;
+  background: rgba(219, 234, 254, 0.8);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.8);
+  color: #1e3a8a;
+  line-height: 1.05;
+  z-index: 5;
+  user-select: none;
+}
+
+.liquid-date-pill .day {
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.liquid-date-pill .date {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* Icon Button */
+.liquid-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  color: #374151;
+  cursor: pointer;
+  transition: var(--transition-tactile);
+  z-index: 5;
+}
+
+.liquid-icon-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.liquid-icon-btn:active {
+  transform: scale(0.95);
+}
+
+.ml-auto {
+  margin-left: auto;
+}
+
+.liquid-orb svg {
+  width: 20px;
+  height: 20px;
+}
+
+.liquid-orb.size-40 svg {
+  width: 16px;
+  height: 16px;
+}
+
+.liquid-icon-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Sliding Lock Toggle */
+.liquid-lock-toggle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+  border-radius: 9999px;
+  background: rgba(0, 0, 0, 0.04);
+  border: none;
+  padding: 2px;
+  cursor: pointer;
+  z-index: 5;
+  overflow: hidden;
+}
+
+.liquid-lock-toggle .icon-unlock {
+  position: absolute;
+  left: 14px;
+  width: 16px;
+  height: 16px;
+  color: #9ca3af;
+}
+
+.lock-thumb {
+  position: relative;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 36px;
+  border-radius: 9999px;
+  background: #151515;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lock-thumb svg {
+  width: 14px;
+  height: 14px;
+}
+
+.lock-thumb .thumb-text {
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* Lock slide-transition positions */
+.liquid-lock-toggle.locked .lock-thumb {
+  margin-left: 2px;
+  width: 90px;
+}
+
+.liquid-lock-toggle:not(.locked) .lock-thumb {
+  margin-left: calc(100% - 38px);
+  width: 36px;
+}
+
+.liquid-lock-toggle:not(.locked) .lock-thumb .thumb-text {
+  display: none;
+}
+
+/* Liquid Generate Button */
+.liquid-gen-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 64px;
+  width: 100%;
+  border-radius: 9999px;
+  border: 1.5px solid rgba(255, 255, 255, 0.65);
+  background: rgba(255, 255, 255, 0.35);
+  font-family: var(--font-body);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-color);
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), 
+              background-color 0.3s ease;
+  z-index: 5;
+}
+
+.liquid-gen-btn .gen-text {
+  position: relative;
+  z-index: 6;
+}
+
+.liquid-gen-btn:hover {
+  transform: scale(1.01);
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.liquid-gen-btn:active {
+  transform: scale(0.98);
+}
+
+/* Lab Responsive Grid Adjustments */
+@media (max-width: 1024px) {
+  .lab-layout {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+}
+
