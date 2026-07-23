@@ -142,10 +142,10 @@ body {
 /* Central 3D Sculpture Artwork Container */
 .sculpture-wrapper {
   position: absolute;
-  top: 5%;
-  left: 5%;
-  width: 90%;
-  height: 90%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -158,10 +158,11 @@ body {
 .sculpture-img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   opacity: 0.88;
   mix-blend-mode: multiply;
   filter: contrast(1.05) brightness(0.98);
+  transform: scale(1.06); /* Prevent margin leakage during mouse-move parallax translations */
 }
 
 /* Custom Grid Positioning for Poster Text Blocks */
@@ -188,6 +189,7 @@ body {
   justify-content: flex-end;
   align-items: flex-start;
   padding-top: 1rem;
+  position: relative;
 }
 
 /* Bottom Left */
@@ -198,6 +200,7 @@ body {
   flex-direction: column;
   justify-content: flex-end;
   padding-bottom: 1rem;
+  position: relative;
 }
 
 /* Bottom Right */
@@ -209,6 +212,32 @@ body {
   justify-content: flex-end;
   gap: 0.5rem;
   padding-bottom: 1rem;
+}
+
+/* SVG Streetwear Thorn Overlays */
+.thorn-svg {
+  position: absolute;
+  pointer-events: none;
+  z-index: 4;
+  color: var(--text-color);
+  opacity: 0.95;
+  transition: color 0.3s ease;
+}
+
+.thorn-left {
+  bottom: -40px;
+  left: -20px;
+  width: 240px;
+  height: 380px;
+  transform: rotate(-5deg);
+}
+
+.thorn-right {
+  top: -40px;
+  right: -20px;
+  width: 140px;
+  height: 220px;
+  transform: rotate(5deg);
 }
 
 /* Center Glassmorphic Card */
