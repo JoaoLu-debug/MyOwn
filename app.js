@@ -210,6 +210,55 @@ bentoCards.forEach(card => {
   });
 });
 
+// ─── Center Glass Card 3D Tilt Interaction ───────────────────────────
+const glassCard = document.querySelector('.glass-card');
+
+if (glassCard) {
+  let targetRotateX = 0;
+  let targetRotateY = 0;
+  let currentRotateX = 0;
+  let currentRotateY = 0;
+  let isGlassHovered = false;
+  
+  function glassCardLoop() {
+    currentRotateX += (targetRotateX - currentRotateX) * 0.12;
+    currentRotateY += (targetRotateY - currentRotateY) * 0.12;
+    
+    if (isGlassHovered) {
+      glassCard.style.transform = `perspective(1000px) rotateX(${currentRotateX}deg) rotateY(${currentRotateY}deg) scale(1.03)`;
+    } else {
+      if (Math.abs(currentRotateX) > 0.01 || Math.abs(currentRotateY) > 0.01) {
+        glassCard.style.transform = `perspective(1000px) rotateX(${currentRotateX}deg) rotateY(${currentRotateY}deg) scale(1)`;
+      } else {
+        glassCard.style.transform = '';
+      }
+    }
+    requestAnimationFrame(glassCardLoop);
+  }
+  requestAnimationFrame(glassCardLoop);
+  
+  glassCard.addEventListener('mousemove', (e) => {
+    isGlassHovered = true;
+    const rect = glassCard.getBoundingClientRect();
+    const xNorm = (e.clientX - rect.left) / rect.width;
+    const yNorm = (e.clientY - rect.top) / rect.height;
+    
+    // Smooth 3D tilt math (max 10 degrees limits)
+    targetRotateX = (0.5 - yNorm) * 20;
+    targetRotateY = (xNorm - 0.5) * 20;
+  });
+  
+  glassCard.addEventListener('mouseenter', () => {
+    isGlassHovered = true;
+  });
+  
+  glassCard.addEventListener('mouseleave', () => {
+    isGlassHovered = false;
+    targetRotateX = 0;
+    targetRotateY = 0;
+  });
+}
+
 // ─── Experience Lab: Liquid Glass Dock Controls ───────────────────────────
 const lockToggleBtn = document.getElementById('lock-toggle-btn');
 const thumbTextLabel = document.getElementById('thumb-text-label');

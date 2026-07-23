@@ -224,7 +224,8 @@ body {
   justify-content: space-between;
   align-items: center;
   text-align: center;
-  transition: var(--transition-smooth);
+  /* Exclude transform from CSS transition to make mouse-tracking LERP buttery smooth */
+  transition: background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, opacity 0.4s ease;
 }
 
 .glass-card:hover {
