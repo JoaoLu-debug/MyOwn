@@ -27,56 +27,99 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// Parallax Hover Interaction on Chrome Artwork
-const poster = document.getElementById('hero-poster');
-const sculptureWrapper = document.getElementById('sculpture-wrapper');
-
-if (poster && sculptureWrapper) {
-  let isHovered = false;
-  let targetX = 0;
-  let targetY = 0;
-  let currentX = 0;
-  let currentY = 0;
+// ─── Canvas Spline Wave Animation ───────────────────────────────────────────
+const splineCanvas = document.getElementById('spline-canvas');
+if (splineCanvas) {
+  const ctx = splineCanvas.getContext('2d');
+  let width = splineCanvas.width = splineCanvas.offsetWidth;
+  let height = splineCanvas.height = splineCanvas.offsetHeight;
   
-  // High-performance interpolation loop
-  function updateParallax() {
-    if (isHovered) {
-      // Ease the transition coordinates (lerp)
-      currentX += (targetX - currentX) * 0.08;
-      currentY += (targetY - currentY) * 0.08;
-      sculptureWrapper.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) scale(1.03) rotateY(${currentX * 0.15}deg) rotateX(${-currentY * 0.15}deg)`;
-    } else {
-      currentX += (0 - currentX) * 0.08;
-      currentY += (0 - currentY) * 0.08;
-      sculptureWrapper.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) scale(1) rotateY(0deg) rotateX(0deg)`;
-    }
-    requestAnimationFrame(updateParallax);
+  // Resize handler
+  window.addEventListener('resize', () => {
+    width = splineCanvas.width = splineCanvas.offsetWidth;
+    height = splineCanvas.height = splineCanvas.offsetHeight;
+  });
+
+  const waveCount = 3;
+  const waves = [];
+  
+  // Create configuration parameters for spline waves
+  for (let i = 0; i < waveCount; i++) {
+    waves.push({
+      yFactor: 0.46 + (i * 0.06), // Vertical offset placement
+      amplitude: 45 + (i * 12),
+      speed: 0.008 + (i * 0.004),
+      frequency: 0.0025 + (i * 0.0008),
+      phase: i * Math.PI / 3,
+      lineWidth: 2.2 - (i * 0.4)
+    });
+  }
+
+  // Linear interpolation variables for mouse movements
+  let targetMouseY = 0;
+  let currentMouseY = 0;
+  
+  const posterElement = document.getElementById('hero-poster');
+  if (posterElement) {
+    posterElement.addEventListener('mousemove', (e) => {
+      const rect = posterElement.getBoundingClientRect();
+      // Normalize cursor ratio (-0.5 to 0.5)
+      targetMouseY = ((e.clientY - rect.top) / rect.height) - 0.5;
+    });
+    
+    posterElement.addEventListener('mouseleave', () => {
+      targetMouseY = 0;
+    });
+  }
+
+  function drawSplines() {
+    ctx.clearRect(0, 0, width, height);
+    
+    // Smooth out coordinates using linear interpolation (LERP)
+    currentMouseY += (targetMouseY - currentMouseY) * 0.06;
+    
+    waves.forEach((wave) => {
+      // Set line colors based on the current theme mode
+      const isDark = document.body.classList.contains('dark-theme');
+      ctx.strokeStyle = isDark
+        ? `rgba(255, 255, 255, ${0.16 - wave.lineWidth * 0.03})`
+        : `rgba(18, 18, 18, ${0.10 - wave.lineWidth * 0.02})`;
+        
+      ctx.lineWidth = wave.lineWidth;
+      ctx.beginPath();
+      
+      wave.phase += wave.speed;
+      
+      // Calculate start coordinate
+      const startY = height * wave.yFactor + Math.sin(wave.phase) * wave.amplitude + (currentMouseY * 110 * wave.yFactor);
+      ctx.moveTo(0, startY);
+      
+      const step = 25;
+      for (let x = 0; x <= width; x += step) {
+        // Spline curve coordinates calculated via trigonometric functions
+        const y = height * wave.yFactor 
+                + Math.sin(wave.phase + x * wave.frequency) * wave.amplitude 
+                + Math.cos(wave.phase * 0.4 + x * 0.001) * (wave.amplitude * 0.4)
+                + (currentMouseY * (140 * wave.yFactor));
+        
+        const nextX = x + step;
+        const nextY = height * wave.yFactor 
+                    + Math.sin(wave.phase + nextX * wave.frequency) * wave.amplitude 
+                    + Math.cos(wave.phase * 0.4 + nextX * 0.001) * (wave.amplitude * 0.4)
+                    + (currentMouseY * (140 * wave.yFactor));
+        
+        // Connect coordinates using quadratic curves
+        ctx.quadraticCurveTo(x, y, (x + nextX) / 2, (y + nextY) / 2);
+      }
+      ctx.stroke();
+    });
+    
+    requestAnimationFrame(drawSplines);
   }
   
-  // Kick off frame calculations
-  requestAnimationFrame(updateParallax);
-
-  poster.addEventListener('mousemove', (e) => {
-    isHovered = true;
-    const rect = poster.getBoundingClientRect();
-    
-    // Coordinates relative to center
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-    
-    // Normalized ratios (-1 to 1)
-    const xRatio = x / (rect.width / 2);
-    const yRatio = y / (rect.height / 2);
-    
-    // Apply bounds for subtle parallax shift (max 20px)
-    targetX = xRatio * 20;
-    targetY = yRatio * 20;
-  });
-
-  poster.addEventListener('mouseleave', () => {
-    isHovered = false;
-  });
+  drawSplines();
 }
+
 
 // Form Submission Feedback Interaction
 function handleFormSubmit(event) {
