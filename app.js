@@ -196,8 +196,64 @@ if (lockToggleBtn) {
   });
 }
 
-// Simulated Generate state tactile feedback
+// ─── Theme Toggle Controller ─────────────────────────
+const themeToggleBtn = document.getElementById('theme-toggle-btn');
+let rotationState = 0;
+if (themeToggleBtn) {
+  themeToggleBtn.addEventListener('click', () => {
+    document.body.classList.toggle('dark-theme');
+    
+    // Tactile rotation spin feedback
+    rotationState += 180;
+    themeToggleBtn.style.transform = `rotate(${rotationState}deg)`;
+  });
+}
+
+// ─── Scroll to Services Controller ───────────────────
+const scrollToServicesBtn = document.getElementById('scroll-to-services-btn');
+if (scrollToServicesBtn) {
+  scrollToServicesBtn.addEventListener('click', () => {
+    const servicesSection = document.getElementById('services');
+    if (servicesSection) {
+      servicesSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+}
+
+// ─── AI Assistant Drawer Controller ─────────────────
+const assistantBackdrop = document.getElementById('assistant-backdrop');
+const assistantPanel = document.getElementById('assistant-panel');
+const chatMessages = document.getElementById('chat-messages');
+const chatInput = document.getElementById('chat-input');
+
+function openAssistant() {
+  assistantBackdrop.classList.add('active');
+  assistantPanel.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => {
+    if (chatInput) chatInput.focus();
+  }, 100);
+}
+
+function closeAssistant() {
+  assistantBackdrop.classList.remove('active');
+  assistantPanel.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+// Bind Q&A assistant to Orb Buttons and Generate Button
+const assistantOrbBtn = document.getElementById('assistant-orb-btn');
+const assistantSmallOrbBtn = document.getElementById('assistant-small-orb-btn');
 const generateDocBtn = document.getElementById('generate-doc-btn');
+
+if (assistantOrbBtn) {
+  assistantOrbBtn.addEventListener('click', openAssistant);
+}
+if (assistantSmallOrbBtn) {
+  assistantSmallOrbBtn.addEventListener('click', openAssistant);
+}
+
+// Generate button action triggers Q&A and simulates compilation visual effect first
 if (generateDocBtn) {
   generateDocBtn.addEventListener('click', () => {
     const genText = generateDocBtn.querySelector('.gen-text');
@@ -213,14 +269,114 @@ if (generateDocBtn) {
       generateDocBtn.style.color = '#10b981';
       
       setTimeout(() => {
-        genText.textContent = 'Generate';
-        generateDocBtn.style.backgroundColor = '';
-        generateDocBtn.style.borderColor = '';
-        generateDocBtn.style.color = '';
-        generateDocBtn.style.opacity = '';
-      }, 1500);
-    }, 1800);
+        // Open Q&A Assistant to display findings
+        openAssistant();
+        
+        // Reset button
+        setTimeout(() => {
+          genText.textContent = 'Generate';
+          generateDocBtn.style.backgroundColor = '';
+          generateDocBtn.style.borderColor = '';
+          generateDocBtn.style.color = '';
+          generateDocBtn.style.opacity = '';
+        }, 300);
+        
+      }, 500);
+    }, 1200);
   });
 }
+
+// Close assistant on ESC key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && assistantPanel.classList.contains('active')) {
+    closeAssistant();
+  }
+});
+
+// Q&A Chat Handler
+const responses = {
+  webdev: "We build custom, high-performance web systems utilizing React/Vite, Tailwind, and clean Vanilla JS. We handle domain bindings, technical SEO schemas, speed engineering (100/100 Mobile PageSpeed guarantees), and custom interactive UI structures from scratch.",
+  video: "Our video editing pillar specializes in vertical formats (TikTok, Reels, Shorts) and corporate media. We script hooks, build custom title cards, direct dynamic cuts, color-grade raw log profiles, and engineer professional audio designs to boost retention metrics.",
+  ads: "Our Google Ads acquisition campaigns target high-intent search terms and display networks. We build custom landing page target structures, structure negative keyword funnels, audit tracking hooks (GA4), and adjust bid bounds continuously to maximize ROAS.",
+  start: "Getting started is easy! You can toggle the booking drawer by clicking 'Start Project' or 'Book a Strategy Session' on the page. Enter your details, and we'll reply with a custom roadmap proposal within 12 business hours.",
+  fallback: "ERGO Studio handles end-to-end custom Web Development, Video Editing, and Google Ads management. Ask me about one of these service areas specifically, or click 'Start Project' to book a strategy call!"
+};
+
+function addMessage(text, sender) {
+  const msgDiv = document.createElement('div');
+  msgDiv.className = `message ${sender}`;
+  msgDiv.textContent = text;
+  chatMessages.appendChild(msgDiv);
+  
+  // Auto scroll to bottom
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function showTypingIndicator() {
+  const indicator = document.createElement('div');
+  indicator.className = 'message incoming';
+  indicator.id = 'typing-indicator';
+  indicator.textContent = 'Co-pilot is writing...';
+  chatMessages.appendChild(indicator);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function removeTypingIndicator() {
+  const indicator = document.getElementById('typing-indicator');
+  if (indicator) {
+    indicator.remove();
+  }
+}
+
+function getAIResponse(input) {
+  const query = input.toLowerCase();
+  
+  if (query.includes('web') || query.includes('dev') || query.includes('site') || query.includes('program') || query.includes('code')) {
+    return responses.webdev;
+  }
+  if (query.includes('video') || query.includes('edit') || query.includes('cut') || query.includes('film') || query.includes('youtube')) {
+    return responses.video;
+  }
+  if (query.includes('ads') || query.includes('google') || query.includes('traffic') || query.includes('market') || query.includes('camp')) {
+    return responses.ads;
+  }
+  if (query.includes('work') || query.includes('start') || query.includes('contact') || query.includes('book') || query.includes('price') || query.includes('cost') || query.includes('session')) {
+    return responses.start;
+  }
+  return responses.fallback;
+}
+
+function handleChatSubmit(event) {
+  event.preventDefault();
+  const query = chatInput.value.trim();
+  if (!query) return;
+  
+  // 1. Add user query message
+  addMessage(query, 'outgoing');
+  chatInput.value = '';
+  
+  // 2. Show typing simulator
+  showTypingIndicator();
+  
+  // 3. Delayed AI reply
+  setTimeout(() => {
+    removeTypingIndicator();
+    const reply = getAIResponse(query);
+    addMessage(reply, 'incoming');
+  }, 700);
+}
+
+function sendSuggestion(promptText) {
+  // Directly simulate sending a prompt
+  addMessage(promptText, 'outgoing');
+  showTypingIndicator();
+  
+  setTimeout(() => {
+    removeTypingIndicator();
+    const reply = getAIResponse(promptText);
+    addMessage(reply, 'incoming');
+  }, 700);
+}
+
 
 
